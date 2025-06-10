@@ -25,5 +25,5 @@ export class CreateTransactionDto {
 
     @IsNotEmpty({message: 'Wajib diisi'})
     @IsNumber()
-    categoryId: number;
+    category_id: number;
 }

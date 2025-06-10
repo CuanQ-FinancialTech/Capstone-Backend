@@ -15,8 +15,8 @@ export class TransactionService {
 
   // Fungsi untuk membuat transaksi baru
   async createTransaction(userId: number, dto: CreateTransactionDto) {
-    if (!dto.categoryId) {
-      throw new BadRequestException('categoryId wajib diisi');
+    if (!dto.category_id) {
+      throw new BadRequestException('category_id wajib diisi');
     }
 
     // lanjut proses seperti biasa
@@ -38,7 +38,7 @@ export class TransactionService {
       message: 'Transaksi berhasil',
       transaction,
       newBalance,
-      categoryId: dto.categoryId,
+      category_id: dto.category_id,
     }
   }
 

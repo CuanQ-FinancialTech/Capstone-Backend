@@ -28,11 +28,11 @@ export class TransactionRepository {
     }
 
     async createTransaction(accountId: number, dto: CreateTransactionDto) {
-        const { amount, description, type , categoryId} = dto;
+        const { amount, description, type , category_id} = dto;
 
         const result = await this.dataSource.query(
             `INSERT INTO transactions (account_id, amount, description, type, category_id) VALUES (?, ?, ?, ?, ?)`,
-            [accountId, amount, description, type, categoryId],
+            [accountId, amount, description, type, category_id],
         );
 
         return {
@@ -41,7 +41,7 @@ export class TransactionRepository {
             amount,
             description,
             type,
-            categoryId,
+            category_id,
         };
     }
 
