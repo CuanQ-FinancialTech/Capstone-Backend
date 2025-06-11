@@ -44,7 +44,7 @@ export class AuthRepository {
             );
 
             const user = result[0];
-            console.log('User found:', user);
+            // console.log('User found:', user);
 
             if (!user) {
                 throw new UnauthorizedException('Email tidak ditemukan');
