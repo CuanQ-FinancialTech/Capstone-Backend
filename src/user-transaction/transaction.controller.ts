@@ -22,12 +22,11 @@ export class TransactionController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('prediction')
-    async getPrediction(
-        @Req() req: Request,
-    ) {
+    @Post('prediction')
+    async getPrediction(@Req() req: Request, @Body() body: any) {
         const user = req.user as any;
         const account = await this.transactionService.getAccount(user.id);
-        return this.transactionService.getPrediction(account.account_id);
+        const periods = Number(body.periods) || 7; // default 7 hari jika tidak dikirim
+        return this.transactionService.getPrediction(account.account_id, periods);
     }
 }

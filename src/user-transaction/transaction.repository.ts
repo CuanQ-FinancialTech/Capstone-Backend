@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { CreateTransactionDto } from './dto/transaction.dto';
-import { } from './dto/predictionResponse.dto';
-import { } from './dto/predictionRequest.dto';
 
 
 @Injectable()
@@ -19,11 +17,12 @@ export class TransactionRepository {
 
     async findByUserId(userId: number) {
         return this.dataSource.query(`
-        SELECT t.transaction_id, t.amount, t.description, t.type, t.created_at
+        SELECT t.transaction_id, t.amount, t.description, t.type, t.created_at, tc.category
             FROM transactions t
-            JOIN account a ON t.account_id = a.account_id
+                JOIN account a ON t.account_id = a.account_id
+                JOIN transaction_category tc ON t.category_id = tc.category_id
             WHERE a.user_id = ?
-        ORDER BY t.created_at DESC`,
+            ORDER BY t.created_at DESC`,
             [userId],
         );
     }
@@ -92,17 +91,4 @@ export class TransactionRepository {
             [accountId]
         );
     }
-    // async findTransactionsInDateRange(accountId: number, start: Date, end: Date) {
-    //     const startStr = start.toISOString().slice(0, 19).replace('T', ' ');
-    //     const endStr = end.toISOString().slice(0, 19).replace('T', ' ');
-
-    //     return this.dataSource.query(
-    //         `SELECT amount, type, created_at 
-    //             FROM transactions 
-    //             WHERE account_id = ? 
-    //             AND created_at BETWEEN ? AND ? 
-    //             ORDER BY created_at DESC`,
-    //         [accountId, startStr, endStr],
-    //     );
-    // }
 }

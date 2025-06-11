@@ -1,6 +1,5 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-// import { UserEntity } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -66,25 +65,4 @@ export class AuthRepository {
 
 }
 
-
-//     // READ (find by username)
-//     async findUserByUsername(username: string): Promise<UserEntity | null> {
-//         return await this.repository.findOne({ where: { username } });
-//     }
-
-//     // READ (all users)
-//     async findAllUsers(): Promise<UserEntity[]> {
-//         return await this.repository.find();
-//     }
-
-//     // UPDATE
-//     async updateUser(id: number, updateData: Partial<UserEntity>): Promise<UserEntity> {
-//         await this.repository.update(id, updateData);
-//         return await this.repository.findOneBy({ id });
-//     }
-
-//     // DELETE
-//     async deleteUser(id: number): Promise<void> {
-//         await this.repository.delete(id);
-//     }
 

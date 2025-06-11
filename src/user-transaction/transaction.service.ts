@@ -4,9 +4,6 @@ import { CreateTransactionDto } from './dto/transaction.dto';
 import { BadRequestException } from '@nestjs/common/exceptions';
 import axios from 'axios';
 import { ConfigService } from '@nestjs/config';
-import { PredictionResponseDto } from './dto/predictionResponse.dto';
-import { TransactionDataDto, PredictionRequestDto } from './dto/predictionRequest.dto';
-
 
 
 @Injectable()
@@ -110,7 +107,7 @@ export class TransactionService {
 
 
   // Fungsi untuk prediksi pengeluaran masa depan
-  async getPrediction(accountId: number) {
+  async getPrediction(accountId: number, periods: number) {
     const incomeAgg = await this.transactionRepository.getDailyIncomeSummary(accountId);
     const expenseAgg = await this.transactionRepository.getDailyExpenseSummary(accountId);
 
@@ -151,6 +148,7 @@ export class TransactionService {
     const requestPayload = {
       data_income,
       data_expenses,
+      periods
     };
 
     // console.log('Payload dikirim ke ML API:', JSON.stringify(requestPayload, null, 2));
@@ -164,7 +162,7 @@ export class TransactionService {
     const result = response.data;
 
     return {
-      forecast: result.forecast, // hasil 7 hari dari ML
+      forecast: result.forecast
     };
   }
 
