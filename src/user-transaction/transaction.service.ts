@@ -111,7 +111,7 @@ export class TransactionService {
     const incomeAgg = await this.transactionRepository.getDailyIncomeSummary(accountId);
     const expenseAgg = await this.transactionRepository.getDailyExpenseSummary(accountId);
 
-    // console.log("Hasil query expenses:", expenseAgg.map(e => e.transaction_date));
+    console.log("Hasil query expenses:", expenseAgg.map(e => e.transaction_date));
 
 
     if (!incomeAgg.length && !expenseAgg.length) {
@@ -151,7 +151,7 @@ export class TransactionService {
       periods
     };
 
-    // console.log('Payload dikirim ke ML API:', JSON.stringify(requestPayload, null, 2));
+    console.log('Payload dikirim ke ML API:', JSON.stringify(requestPayload, null, 2));
 
     const mlApiUrl = this.configService.get<string>('ML_API_URL');
     if (!mlApiUrl) {

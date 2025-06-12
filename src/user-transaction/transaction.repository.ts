@@ -103,7 +103,7 @@ export class TransactionRepository {
     GROUP BY d.dt
     ORDER BY d.dt ASC
     `,
-            [accountId]
+    [accountId]
         );
     }
 
