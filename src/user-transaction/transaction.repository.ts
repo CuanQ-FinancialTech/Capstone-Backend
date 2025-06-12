@@ -66,29 +66,45 @@ export class TransactionRepository {
     async getDailyIncomeSummary(accountId: number) {
         return this.dataSource.query(
             `
-    SELECT DATE(created_at) AS transaction_date, SUM(amount) AS total_income
-    FROM transactions
-    WHERE account_id = ? AND type = 'income'
-      AND created_at >= CURDATE() - INTERVAL 10 DAY
-    GROUP BY DATE(created_at)
-    ORDER BY DATE(created_at) ASC
+    WITH RECURSIVE date_range AS (
+      SELECT CURDATE() - INTERVAL 9 DAY AS dt
+      UNION ALL
+      SELECT dt + INTERVAL 1 DAY FROM date_range WHERE dt + INTERVAL 1 DAY <= CURDATE()
+    )
+    SELECT 
+      d.dt AS transaction_date,
+      COALESCE(SUM(t.amount), 0) AS total_income
+    FROM date_range d
+    LEFT JOIN transactions t 
+      ON DATE(t.created_at) = d.dt AND t.account_id = ? AND t.type = 'income'
+    GROUP BY d.dt
+    ORDER BY d.dt ASC
     `,
             [accountId]
         );
     }
 
+
     // Agregasi expense per hari - 10 hari terakhir
     async getDailyExpenseSummary(accountId: number) {
         return this.dataSource.query(
             `
-    SELECT DATE(created_at) AS transaction_date, SUM(amount) AS total_expense
-    FROM transactions
-    WHERE account_id = ? AND type = 'expense'
-      AND created_at >= CURDATE() - INTERVAL 10 DAY
-    GROUP BY DATE(created_at)
-    ORDER BY DATE(created_at) ASC
+    WITH RECURSIVE date_range AS (
+      SELECT CURDATE() - INTERVAL 9 DAY AS dt
+      UNION ALL
+      SELECT dt + INTERVAL 1 DAY FROM date_range WHERE dt + INTERVAL 1 DAY <= CURDATE()
+    )
+    SELECT 
+      d.dt AS transaction_date,
+      COALESCE(SUM(t.amount), 0) AS total_expense
+    FROM date_range d
+    LEFT JOIN transactions t 
+      ON DATE(t.created_at) = d.dt AND t.account_id = ? AND t.type = 'expense'
+    GROUP BY d.dt
+    ORDER BY d.dt ASC
     `,
             [accountId]
         );
     }
+
 }

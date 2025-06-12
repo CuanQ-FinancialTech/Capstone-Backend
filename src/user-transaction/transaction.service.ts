@@ -124,7 +124,7 @@ export class TransactionService {
         if (!map.has(item.date)) {
           map.set(item.date, item);
         } else {
-          console.warn("⚠️ Duplikat ditemukan di tanggal:", item.date);
+          console.warn("Duplikat ditemukan di tanggal:", item.date);
         }
       }
       return Array.from(map.values());
@@ -151,7 +151,7 @@ export class TransactionService {
       periods
     };
 
-    // console.log('Payload dikirim ke ML API:', JSON.stringify(requestPayload, null, 2));
+    console.log('Payload dikirim ke ML API:', JSON.stringify(requestPayload, null, 2));
 
     const mlApiUrl = this.configService.get<string>('ML_API_URL');
     if (!mlApiUrl) {
@@ -160,6 +160,7 @@ export class TransactionService {
 
     const response = await axios.post(`${mlApiUrl}/forecast`, requestPayload);
     const result = response.data;
+    console.log('Response dari ML API:', result);
 
     return {
       forecast: result.forecast
