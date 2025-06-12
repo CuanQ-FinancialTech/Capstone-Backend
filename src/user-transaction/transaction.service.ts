@@ -151,7 +151,7 @@ export class TransactionService {
       periods
     };
 
-    console.log('Payload dikirim ke ML API:', JSON.stringify(requestPayload, null, 2));
+    // console.log('Payload dikirim ke ML API:', JSON.stringify(requestPayload, null, 2));
 
     const mlApiUrl = this.configService.get<string>('ML_API_URL');
     if (!mlApiUrl) {
@@ -160,7 +160,7 @@ export class TransactionService {
 
     const response = await axios.post(`${mlApiUrl}/forecast`, requestPayload);
     const result = response.data;
-    console.log('Response dari ML API:', result);
+    // console.log('Response dari ML API:', result);
 
     return {
       forecast: result.forecast

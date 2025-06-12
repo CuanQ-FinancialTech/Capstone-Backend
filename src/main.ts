@@ -22,7 +22,7 @@ async function bootstrap() {
     }
     )
   );
-  console.log(`App is running on port ${port}`);
+  // console.log(`App is running on port ${port}`);
   await app.listen(port);
 }
 bootstrap();
